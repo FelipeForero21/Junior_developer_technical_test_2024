@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Animal } from 'src/animals/entities/animal.entity';
 
 @Entity()
 export class Corral {
@@ -10,4 +11,7 @@ export class Corral {
 
   @Column()
   capacity: number;
+
+  @OneToMany(() => Animal, animal => animal.corral)
+  animals: Animal[];
 }
