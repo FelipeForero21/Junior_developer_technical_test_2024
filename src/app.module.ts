@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config'; 
+import { CorralsModule } from './corrals/corrals.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ConfigModule } from '@nestjs/config';
         rejectUnauthorized: false, 
       },
     }),
+    CorralsModule,
   ],
 })
 export class AppModule {}
