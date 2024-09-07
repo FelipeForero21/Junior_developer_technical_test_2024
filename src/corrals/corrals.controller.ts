@@ -16,7 +16,7 @@ export class CorralsController {
     return this.corralsService.findOne(+id);
   }
 
-  @Post()
+  @Post('add')
   create(@Body() corral: Corral) {
     return this.corralsService.create(corral);
   }
