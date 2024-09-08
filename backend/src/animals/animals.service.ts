@@ -23,7 +23,6 @@ export class AnimalsService {
       );
     }
   
-    // Buscar el corral
     const corral = await this.corralsRepository.findOne({
       where: { id: createAnimalDto.corralId },
       relations: ['animals'],
@@ -33,14 +32,12 @@ export class AnimalsService {
       throw new BadRequestException('Corral not found');
     }
   
-    // Verificar el estado de riesgo del animal y del corral
     if (corral.isHighRisk !== createAnimalDto.isHighRisk) {
       throw new BadRequestException(
         `The animal's risk status (${createAnimalDto.isHighRisk ? 'High Risk' : 'No Risk'}) does not match the corral's risk status (${corral.isHighRisk ? 'High Risk' : 'No Risk'}).`
       );
     }
   
-    // Verificar capacidad del corral
     const currentAnimalCount = corral.animals.length;
     const newAnimalCount = currentAnimalCount + createAnimalDto.quantity;
   
@@ -48,7 +45,6 @@ export class AnimalsService {
       throw new BadRequestException('Corral capacity exceeded');
     }
   
-    // Agregar animales
     for (let i = 0; i < createAnimalDto.quantity; i++) {
       const newAnimal = this.animalsRepository.create({
         name: createAnimalDto.name,

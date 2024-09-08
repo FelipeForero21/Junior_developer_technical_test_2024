@@ -17,7 +17,10 @@
       "lint": "npm run lint:frontend && npm run lint:backend",
       "format:frontend": "cd frontend && npm run format",
       "format:backend": "cd backend && npm run format",
-      "format": "npm run format:frontend && npm run format:backend"
+      "format": "npm run format:frontend && npm run format:backend",
+      "install:frontend": "cd frontend && npm install",
+      "install:backend": "cd backend && npm install",
+      "install": "npm run install:frontend && npm run install:backend"
     },
     "dependencies": {
       "@angular/animations": "^14.2.0",
@@ -46,7 +49,7 @@
       "typeorm": "^0.3.20"
     },
     "devDependencies": {
-    "concurrently": "^7.6.0",
+      "concurrently": "^7.6.0",
       "@angular-devkit/build-angular": "^14.2.13",
       "@angular/cli": "~14.2.13",
       "@angular/compiler-cli": "^14.2.0",
