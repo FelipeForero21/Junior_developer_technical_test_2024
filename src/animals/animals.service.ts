@@ -12,56 +12,6 @@ export class AnimalsService {
     @InjectRepository(Corral)
     private readonly corralsRepository: Repository<Corral>,
   ) {}
-
-  async create(createAnimalDto: CreateAnimalDto): Promise<Animal[]> {
-    if (
-      isNaN(createAnimalDto.age) ||
-      isNaN(createAnimalDto.quantity) ||
-      isNaN(createAnimalDto.corralId)
-    ) {
-      throw new BadRequestException(
-        'Invalid input: Age, Quantity, and Corral ID must be valid numbers.',
-      );
-    }
-  
-    const corral = await this.corralsRepository.findOne({
-      where: { id: createAnimalDto.corralId },
-      relations: ['animals'],
-    });
-  
-    if (!corral) {
-      throw new BadRequestException('Corral not found');
-    }
-  
-    const currentAnimalCount = corral.animals.length;
-    if (currentAnimalCount + createAnimalDto.quantity > corral.capacity) {
-      throw new BadRequestException('Corral capacity exceeded');
-    }
-  
-    // Crear nuevos animales
-    const animals: Animal[] = [];
-    for (let i = 0; i < createAnimalDto.quantity; i++) {
-      const animal = this.animalsRepository.create({
-        name: createAnimalDto.name,
-        age: createAnimalDto.age,
-        isHighRisk: createAnimalDto.isHighRisk,
-        corral: corral, 
-        restrictedAnimals: createAnimalDto.restrictedAnimals
-          ? await this.animalsRepository.findByIds(createAnimalDto.restrictedAnimals)
-          : [],      
-      });
-      animals.push(animal);
-    }
-  
-    const savedAnimals = await this.animalsRepository.save(animals);
-  
-    corral.capacity -= createAnimalDto.quantity;
-  
-    return this.animalsRepository.find({
-      where: { id: In(savedAnimals.map(animal => animal.id)) },
-      relations: ['corral'],
-    });
-  }
   async addAnimalToCorral(createAnimalDto: CreateAnimalDto): Promise<void> {
     if (
       isNaN(createAnimalDto.age) ||
@@ -72,21 +22,33 @@ export class AnimalsService {
         'Invalid input: Age, Quantity, and Corral ID must be valid numbers.',
       );
     }
-
+  
+    // Buscar el corral
     const corral = await this.corralsRepository.findOne({
       where: { id: createAnimalDto.corralId },
       relations: ['animals'],
     });
-
+  
     if (!corral) {
       throw new BadRequestException('Corral not found');
     }
-
+  
+    // Verificar el estado de riesgo del animal y del corral
+    if (corral.isHighRisk !== createAnimalDto.isHighRisk) {
+      throw new BadRequestException(
+        `The animal's risk status (${createAnimalDto.isHighRisk ? 'High Risk' : 'No Risk'}) does not match the corral's risk status (${corral.isHighRisk ? 'High Risk' : 'No Risk'}).`
+      );
+    }
+  
+    // Verificar capacidad del corral
     const currentAnimalCount = corral.animals.length;
-    if (currentAnimalCount + createAnimalDto.quantity > corral.capacity) {
+    const newAnimalCount = currentAnimalCount + createAnimalDto.quantity;
+  
+    if (newAnimalCount > corral.capacity) {
       throw new BadRequestException('Corral capacity exceeded');
     }
-
+  
+    // Agregar animales
     for (let i = 0; i < createAnimalDto.quantity; i++) {
       const newAnimal = this.animalsRepository.create({
         name: createAnimalDto.name,
@@ -96,11 +58,9 @@ export class AnimalsService {
       });
       await this.animalsRepository.save(newAnimal);
     }
-
-    corral.capacity -= createAnimalDto.quantity;
-    await this.corralsRepository.save(corral);
   }
-
+  
+  
   async remove(id: number): Promise<void> {
     const animal = await this.animalsRepository.findOne({
       where: { id },
@@ -142,11 +102,17 @@ export class AnimalsService {
     return this.animalsRepository.save(animal);
   }
 
-  async getAnimalSummaryByCorral(): Promise<any> {
-    const corrals = await this.corralsRepository.find({
+  async getAnimalSummaryByCorral(corralId: number): Promise<any> {
+    const corral = await this.corralsRepository.findOne({
+      where: { id: corralId },
       relations: ['animals'],
     });
-    return corrals.map((corral) => ({
+  
+    if (!corral) {
+      throw new Error('Corral not found');
+    }
+  
+    return {
       corralId: corral.id,
       corralName: corral.name,
       animals: corral.animals.map((animal) => ({
@@ -154,9 +120,8 @@ export class AnimalsService {
         age: animal.age,
         isHighRisk: animal.isHighRisk,
       })),
-    }));
+    };
   }
-
   async getAverageAgeByCorral(corralId: number): Promise<number> {
     const corral = await this.corralsRepository.findOne({
       where: { id: corralId },

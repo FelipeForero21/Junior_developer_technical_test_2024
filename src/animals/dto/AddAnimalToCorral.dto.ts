@@ -8,5 +8,5 @@ export class AddAnimalToCorralDto {
   corralId: number;
 
   @IsNumber()
-  quantity: number; 
+  quantity: number;
 }

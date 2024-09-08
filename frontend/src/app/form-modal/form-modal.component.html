@@ -1,0 +1,40 @@
+<h1 mat-dialog-title>Crear Corral</h1>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre</mat-label>
+      <input
+        matInput
+        formControlName="name"
+        placeholder="Ingresa el nombre del Corral"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Capacidad Total</mat-label>
+      <input
+        matInput
+        formControlName="capacity"
+        placeholder="Ingresa la capacidad Total"
+        type="number"
+        required
+      />
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-content>
+    <mat-label>El corral es de animales de alto riesgo?</mat-label>
+    <mat-radio-group formControlName="isHighRisk">
+      <br /><br />
+      <mat-radio-button [value]="true">Sí</mat-radio-button>
+      <br />
+      <mat-radio-button [value]="false">No</mat-radio-button>
+    </mat-radio-group>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+    <button mat-button type="submit" cdkFocusInitial>Guardar</button>
+  </mat-dialog-actions>
+</form>

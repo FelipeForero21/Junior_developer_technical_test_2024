@@ -1,4 +1,11 @@
-import { IsString, IsNumber, Min, IsOptional, IsArray, IsBoolean } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  Min,
+  IsOptional,
+  IsArray,
+  IsBoolean,
+} from 'class-validator';
 import { Animal } from '../entities/animal.entity';
 
 export class CreateAnimalDto {

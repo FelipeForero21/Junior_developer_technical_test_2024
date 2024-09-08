@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { Corral } from 'src/corrals/entities/corral.entity';
 
 @Entity()
@@ -13,9 +20,9 @@ export class Animal {
   age: number;
 
   @Column()
-  isHighRisk: boolean; 
+  isHighRisk?: boolean;
 
-  @ManyToOne(() => Corral, corral => corral.animals)
+  @ManyToOne(() => Corral, (corral) => corral.animals)
   corral: Corral;
 
   @ManyToMany(() => Animal, { nullable: true })

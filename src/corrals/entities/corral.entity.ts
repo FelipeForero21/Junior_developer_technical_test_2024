@@ -12,6 +12,9 @@ export class Corral {
   @Column()
   capacity: number;
 
-  @OneToMany(() => Animal, animal => animal.corral)
+  @Column({ default: false })
+  isHighRisk: boolean;
+
+  @OneToMany(() => Animal, (animal) => animal.corral)
   animals: Animal[];
 }

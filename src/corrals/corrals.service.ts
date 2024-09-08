@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Corral } from './entities/corral.entity';
+import { CreateCorralDto } from './dto/create-corral.dto';
 
 @Injectable()
 export class CorralsService {
@@ -18,7 +19,8 @@ export class CorralsService {
     return this.corralsRepository.findOneBy({ id });
   }
 
-  create(corral: Corral): Promise<Corral> {
+  async create(createCorralDto: CreateCorralDto): Promise<Corral> {
+    const corral = this.corralsRepository.create(createCorralDto);
     return this.corralsRepository.save(corral);
   }
 
