@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "86550809-1dd4-479e-95ae-0e3f20427f5f",
+		"name": "Farm",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "33509084",
+		"_collection_link": "https://blue-flare-210817.postman.co/workspace/My-Workspace~931d3d74-1254-45cc-8136-433563407235/collection/33509084-86550809-1dd4-479e-95ae-0e3f20427f5f?action=share&source=collection_link&creator=33509084"
+	},
+	"item": [
+		{
+			"name": "Animals",
+			"item": [
+				{
+					"name": "Get all Animals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/animals/"
+					},
+					"response": []
+				},
+				{
+					"name": "summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/animals/2/summary"
+					},
+					"response": []
+				},
+				{
+					"name": "Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n  {\r\n    \"name\": \"PERRO\",\r\n    \"age\": 50,\r\n    \"quantity\": 1,\r\n    \"isHighRisk\": false,\r\n    \"corralId\": 1\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/animals/add-to-corral"
+					},
+					"response": []
+				},
+				{
+					"name": "Edadpromedio",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/animals/average-age/2"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Corrals",
+			"item": [
+				{
+					"name": "Get all Corrals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/corrals"
+					},
+					"response": []
+				},
+				{
+					"name": "Find id corrals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/corrals/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Corrals",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Corral Violento\",\r\n  \"capacity\": 20,\r\n\"isHighRisk\": true\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/corrals/add"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
