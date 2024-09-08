@@ -1,0 +1,46 @@
+<h1 mat-dialog-title>Lista de Corrales</h1>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Seleccionar Corral</mat-label>
+    <mat-select [(ngModel)]="selectedCorralId" (ngModelChange)="onCorralChange($event)">
+      <mat-option [value]="null">Mostrar Todos</mat-option>
+      <mat-option *ngFor="let corral of corrals" [value]="corral.id">
+        {{ corral.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-list>
+    <mat-list-item *ngFor="let corral of filteredCorrals"
+                   [ngStyle]="{'background-color': corral.isHighRisk ? '#f8d7da' : '#d4edda', 'padding': '100px', 'border-radius': '4px'}">
+      <div>
+        <h2>{{ corral.name }}</h2>
+        <p>Capacidad Total: {{ corral.capacity }}</p>
+        <p [ngStyle]="{'color': corral.isHighRisk ? 'red' : 'green', 'font-weight': 'bold'}">
+          {{ corral.isHighRisk ? 'Violento' : 'No Violento' }}
+        </p>
+        <button mat-button (click)="toggleAverageAge(corral.id)">
+          {{ isAverageAgeVisible(corral.id) ? 'Ocultar Edad Promedio' : 'Mostrar Edad Promedio' }}
+        </button>
+        <br>
+        <li *ngIf="isAverageAgeVisible(corral.id)">
+        Edad Promedio de los Animales: {{ averageAgeByCorral[corral.id] === null ? 'No hay Animales en este Corral, 0' : averageAgeByCorral[corral.id] }}
+        </li>
+        <button mat-button (click)="toggleAnimals(corral.id)">
+          {{ isAnimalsVisible(corral.id) ? 'Ocultar Animales' : 'Mostrar Animales' }}
+        </button>
+        <div *ngIf="isAnimalsVisible(corral.id)">
+          <ul>
+            <li *ngFor="let animal of animalsInSelectedCorral">
+              {{ animal.name }} - Edad: {{ animal.age }} - Riesgo: {{ animal.isHighRisk ? 'Alto' : 'Bajo' }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </mat-list-item>
+  </mat-list>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onClose()">Cerrar</button>
+</mat-dialog-actions>

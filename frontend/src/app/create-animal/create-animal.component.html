@@ -1,0 +1,74 @@
+<h1 mat-dialog-title>Crear Animal</h1>
+<form (ngSubmit)="onSubmit()" class="animal-form">
+  <mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre del Animal</mat-label>
+      <input
+        matInput
+        [(ngModel)]="animal.name"
+        name="name"
+        placeholder="Ingresa el nombre del Animal"
+        required
+      />
+      <mat-error *ngIf="!animal.name">El nombre es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Edad del Animal</mat-label>
+      <input
+        matInput
+        [(ngModel)]="animal.age"
+        name="age"
+        type="number"
+        placeholder="Ingresa la edad del Animal"
+        required
+      />
+      <mat-error *ngIf="!animal.age">La edad es requerida</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Cantidad de Animales</mat-label>
+      <input
+        matInput
+        [(ngModel)]="animal.quantity"
+        name="quantity"
+        type="number"
+        placeholder="Ingresa la cantidad"
+        required
+      />
+      <mat-error *ngIf="!animal.quantity">La cantidad es requerida</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Selecciona el Corral</mat-label>
+      <mat-select
+        [(ngModel)]="animal.corralId"
+        name="corralId"
+        placeholder="Selecciona un corral"
+        required
+      >
+        <mat-option *ngFor="let corral of corrals" [value]="corral.id">
+          {{ corral.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="!animal.corralId">El corral es requerido</mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-content>
+    <mat-label>Es de Alto Riesgo</mat-label>
+    <br />
+    <mat-radio-group [(ngModel)]="animal.isHighRisk" name="isHighRisk">
+      <mat-radio-button [value]="true">Sí</mat-radio-button>
+      <br /><br />
+      <mat-radio-button [value]="false">No</mat-radio-button>
+    </mat-radio-group>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-raised-button color="primary" type="submit">
+      Crear Animal
+    </button>
+  </mat-dialog-actions>
+</form>
