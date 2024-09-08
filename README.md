@@ -81,3 +81,5 @@ npm run start
 3.	Visualizar Animales: Selecciona un corral desde el combo para ver los animales asociados en la tabla.
 4.	Generar Resumen: Accede al endpoint correspondiente para obtener el resumen de animales y verificar aquellos de alta peligrosidad.
 5.	Calcular Promedio de Edad: Utiliza el endpoint adecuado para obtener el promedio de edad de los animales en un corral.
+
+![Tablero de jira](https://drive.google.com/file/d/16tIpFd68E0VkBEmI0yFibjlHKrHiTxOY/view?usp=sharing)
