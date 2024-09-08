@@ -1,6 +1,15 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common';
 import { CorralsService } from './corrals.service';
 import { Corral } from './entities/corral.entity';
+import { CreateCorralDto } from './dto/create-corral.dto';
 
 @Controller('corrals')
 export class CorralsController {
@@ -17,8 +26,9 @@ export class CorralsController {
   }
 
   @Post('add')
-  create(@Body() corral: Corral) {
-    return this.corralsService.create(corral);
+  create(@Body() createCorralDto: CreateCorralDto) {
+    const corral = this.corralsService.create(createCorralDto);
+    return corral;
   }
 
   @Put(':id')
