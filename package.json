@@ -22,6 +22,7 @@
     "install:backend": "cd backend && npm install",
     "install": "npm run install:frontend && npm run install:backend"
   },
-  "dependencies": {},
-  "devDependencies": {}
+    "dependencies": {
+      "concurrently": "^9.0.1"
+    }
 }
